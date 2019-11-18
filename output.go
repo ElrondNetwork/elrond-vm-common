@@ -73,6 +73,14 @@ type VMOutput struct {
 	// ReturnCode is part of the transaction receipt.
 	ReturnCode ReturnCode
 
+	// ReturnMessage is a textual message that accompanies ReturnCode.
+	// If ReturnCode == `Ok`, then ReturnMessage should be an empty string.
+	// Otherwise, ReturnMessage should be set by the VM to some helpful error message.
+	// This value does not influence the account state in any way.
+	// The value should be accessible to a UI.
+	// ReturnMessage is part of the transaction receipt.
+	ReturnMessage string
+
 	// GasRemaining = VMInput.GasProvided - gas used.
 	// It is necessary to compute how much to charge the sender for the transaction.
 	GasRemaining *big.Int

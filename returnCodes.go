@@ -62,4 +62,7 @@ const (
 
 	// ContractInvalid is returned when the contract is invalid.
 	ContractInvalid ReturnCode = 9
+
+	// ForbiddenCallToInit is returned when a call to "init" is made after the SmartContract has been deployed.
+	ForbiddenCallToInit ReturnCode = 10
 )
