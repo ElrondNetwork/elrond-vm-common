@@ -143,6 +143,130 @@ func TestAtArgumentParser_ParseDataEmpty(t *testing.T) {
 	assert.Equal(t, ErrStringSplitFailed, err)
 }
 
+func TestAtArgumentParser_ComposeDataEmpty(t *testing.T) {
+	t.Parallel()
+
+	parser, err := NewAtArgumentParser()
+	assert.Nil(t, err)
+	assert.NotNil(t, parser)
+
+	dataElements := make([][]byte, 0)
+
+	data := parser.ComposeData(dataElements)
+	assert.Equal(t, "", data)
+}
+
+func TestAtArgumentParser_ComposeData_SingleElement(t *testing.T) {
+	t.Parallel()
+
+	parser, err := NewAtArgumentParser()
+	assert.Nil(t, err)
+	assert.NotNil(t, parser)
+
+	dataElements := make([][]byte, 0)
+	dataElements = append(dataElements, []byte("one"))
+
+	data := parser.ComposeData(dataElements)
+	assert.Equal(t, "one", data)
+}
+
+func TestAtArgumentParser_ComposeData_TwoElements(t *testing.T) {
+	t.Parallel()
+
+	parser, err := NewAtArgumentParser()
+	assert.Nil(t, err)
+	assert.NotNil(t, parser)
+
+	dataElements := make([][]byte, 0)
+	dataElements = append(dataElements, []byte("one"))
+	dataElements = append(dataElements, []byte("two"))
+
+	data := parser.ComposeData(dataElements)
+	assert.Equal(t, "one@two", data)
+}
+
+func TestAtArgumentParser_ComposeData_ThreeElements(t *testing.T) {
+	t.Parallel()
+
+	parser, err := NewAtArgumentParser()
+	assert.Nil(t, err)
+	assert.NotNil(t, parser)
+
+	dataElements := make([][]byte, 0)
+	dataElements = append(dataElements, []byte("one"))
+	dataElements = append(dataElements, []byte("two"))
+	dataElements = append(dataElements, []byte("three"))
+
+	data := parser.ComposeData(dataElements)
+	assert.Equal(t, "one@two@three", data)
+}
+
+func TestAtArgumentParser_ComposeData_ThreeElements_SkipOne(t *testing.T) {
+	t.Parallel()
+
+	parser, err := NewAtArgumentParser()
+	assert.Nil(t, err)
+	assert.NotNil(t, parser)
+
+	dataElements := make([][]byte, 0)
+	dataElements = append(dataElements, []byte("one"))
+	dataElements = append(dataElements, make([]byte, 0))
+	dataElements = append(dataElements, []byte("three"))
+
+	data := parser.ComposeData(dataElements)
+	assert.Equal(t, "one@three", data)
+}
+
+func TestAtArgumentParser_ComposeData_ThreeElements_SkipFirst(t *testing.T) {
+	t.Parallel()
+
+	parser, err := NewAtArgumentParser()
+	assert.Nil(t, err)
+	assert.NotNil(t, parser)
+
+	dataElements := make([][]byte, 0)
+	dataElements = append(dataElements, make([]byte, 0))
+	dataElements = append(dataElements, []byte("two"))
+	dataElements = append(dataElements, []byte("three"))
+
+	data := parser.ComposeData(dataElements)
+	assert.Equal(t, "two@three", data)
+}
+
+func TestAtArgumentParser_ComposeData_ThreeElements_SkipLast(t *testing.T) {
+	t.Parallel()
+
+	parser, err := NewAtArgumentParser()
+	assert.Nil(t, err)
+	assert.NotNil(t, parser)
+
+	dataElements := make([][]byte, 0)
+	dataElements = append(dataElements, []byte("one"))
+	dataElements = append(dataElements, []byte("two"))
+	dataElements = append(dataElements, make([]byte, 0))
+
+	data := parser.ComposeData(dataElements)
+	assert.Equal(t, "one@two", data)
+}
+
+func TestAtArgumentParser_ComposeData_ThreeElements_SkipTwoMiddle(t *testing.T) {
+	t.Parallel()
+
+	parser, err := NewAtArgumentParser()
+	assert.Nil(t, err)
+	assert.NotNil(t, parser)
+
+	dataElements := make([][]byte, 0)
+	dataElements = append(dataElements, []byte("one"))
+	dataElements = append(dataElements, []byte("two"))
+	dataElements = append(dataElements, make([]byte, 0))
+	dataElements = append(dataElements, make([]byte, 0))
+	dataElements = append(dataElements, []byte("five"))
+
+	data := parser.ComposeData(dataElements)
+	assert.Equal(t, "one@two@five", data)
+}
+
 func TestAtArgumentParser_CreateDataFromStorageUpdate(t *testing.T) {
 	t.Parallel()
 

@@ -43,6 +43,27 @@ func (at *atArgumentParser) ParseData(data string) error {
 	return nil
 }
 
+// ComposeData creates a Data string from a slice of []byte elements
+// using atSep
+func (at *atArgumentParser) ComposeData(dataElements [][]byte) string {
+	numElements := len(dataElements)
+	if numElements == 0 {
+		return ""
+	}
+
+	dataString := ""
+	for i, element := range dataElements {
+		if len(element) == 0 {
+			continue
+		}
+		if i != 0 && len(dataString) > 0 {
+			dataString += atSep
+		}
+		dataString += string(element)
+	}
+	return dataString
+}
+
 // GetArguments returns the arguments from the parsed data
 func (at *atArgumentParser) GetArguments() ([][]byte, error) {
 	if at.arguments == nil {
