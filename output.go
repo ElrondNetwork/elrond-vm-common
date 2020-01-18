@@ -43,6 +43,7 @@ type OutputAccount struct {
 	// indexed with strings produced by `string(StorageUpdate.Offset)`, for fast
 	// access by the Offset of the StorageUpdate. These StorageUpdate structs
 	// will be processed by the Node to modify the storage of the SmartContract.
+	// The VM adds content to this map as it executes a SmartContract method.
 	// Please note that it is likely that not all existing account storage keys
 	// show up here.
 	StorageUpdates map[string]*StorageUpdate
